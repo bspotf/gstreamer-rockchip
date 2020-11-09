@@ -82,8 +82,7 @@ gst_mpp_h264_enc_set_format (GstVideoEncoder * encoder,
   rc_cfg.fps_out_flex = 0;
   rc_cfg.fps_out_num = GST_VIDEO_INFO_FPS_N (&state->info);
   rc_cfg.fps_out_denorm = GST_VIDEO_INFO_FPS_D (&state->info);
-  rc_cfg.gop = GST_VIDEO_INFO_FPS_N (&state->info)
-      / GST_VIDEO_INFO_FPS_D (&state->info);
+  rc_cfg.gop = 15;
   rc_cfg.skip_cnt = 0;
 
   codec_cfg.h264.qp_init = 26;
@@ -94,10 +93,7 @@ gst_mpp_h264_enc_set_format (GstVideoEncoder * encoder,
     codec_cfg.h264.qp_max_step = 8;
 
     /* Bits of a GOP */
-    rc_cfg.bps_target = GST_VIDEO_INFO_WIDTH (&state->info)
-        * GST_VIDEO_INFO_HEIGHT (&state->info)
-        / 8 * GST_VIDEO_INFO_FPS_N (&state->info)
-        / GST_VIDEO_INFO_FPS_D (&state->info);
+    rc_cfg.bps_target = 800 * 1000;
     rc_cfg.bps_max = rc_cfg.bps_target * 17 / 16;
     rc_cfg.bps_min = rc_cfg.bps_target * 15 / 16;
   } else if (rc_cfg.rc_mode == MPP_ENC_RC_MODE_VBR) {
